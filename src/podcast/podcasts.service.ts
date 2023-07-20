@@ -12,9 +12,16 @@ import {
   EpisodesOutput,
   EpisodesSearchInput,
 } from './dtos/podcast.dto';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class PodcastsService {
+  constructor(
+    @InjectRepository(Podcast) private readonly podcastsRepo: Repository<Podcast>,
+    @InjectRepository(Episode) private readonly EpisodeRepo: Repository<Episode>,
+  ) {}
+
   private podcasts: Podcast[] = [];
 
   getAllPodcasts(): Podcast[] {
