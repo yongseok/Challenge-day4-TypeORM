@@ -12,7 +12,7 @@ import { Episode } from './podcast/entities/episode.entity';
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'db.sqlite',
-      logging: false,
+      logging: 'all',
       synchronize: true,
       entities: [Podcast, Episode],
     }),
