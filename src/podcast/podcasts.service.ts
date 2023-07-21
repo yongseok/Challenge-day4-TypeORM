@@ -79,23 +79,12 @@ export class PodcastsService {
       if (!ok) {
         return { ok, error };
       }
-      // console.log('podcast:', podcast);
-      // console.log({ ...podcast, ...rest, episodes: [] });
 
-      // rest.episodes?.map(async (epi) => {
-      //   const newEpisode = await this.EpisodeRepo.save({
-      //     ...epi,
-      //   });
-      //   podcast.episodes.push(newEpisode);
-      // });
       const newEpisode = await this.EpisodeRepo.save(rest.episodes);
       podcast.episodes.push(...newEpisode);
-
-      // NOTE: 중요! 안 지워주면 episodes와 연결 끊어짐(podcastId 컬럼 비워짐)
       delete rest.episodes;
 
-      // this.podcastsRepo.update(id, { ...podcast, ...rest });
-      this.podcastsRepo.save({ ...podcast, ...rest });
+      await this.podcastsRepo.save({ ...podcast, ...rest });
       return { ok };
     } catch (error) {
       return { ok: false, error };
@@ -169,9 +158,7 @@ export class PodcastsService {
     if (!ok) {
       return { ok, error };
     }
-
-    // console.log('delete:', episode);
-    this.EpisodeRepo.delete(episode);
+    await this.EpisodeRepo.delete(episode);
 
     return { ok: true };
   }
